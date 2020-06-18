@@ -1,7 +1,7 @@
 import pygame
 
-from flapjack.asset_manager import AssetManager
-from flapjack.texture_region import TextureRegion
+from .asset_manager import AssetManager
+from .texture_region import TextureRegion
 
 
 class TextureAtlas:

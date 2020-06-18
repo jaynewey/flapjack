@@ -55,7 +55,7 @@ class FiniteStateMachine:
         :type path: str
         :return: FiniteStateMachine
         """
-        from flapjack.asset_manager import AssetManager
+        from .asset_manager import AssetManager
         states = AssetManager.load_json(path)
         return FiniteStateMachine(states=states)
 
