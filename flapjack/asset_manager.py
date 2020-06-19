@@ -17,6 +17,17 @@ class AssetManager:
             self.__assets[asset_type] = {asset}
         return asset
 
+    def remove_asset(self, asset):
+        """Removes a given asset from the database.
+
+        :param asset: The asset you want removed
+        :return: The removed asset. None if the asset was not found in the database
+        """
+        asset_type = type(asset)
+        if asset_type in self.__assets.keys():
+            return self.__assets[asset_type].discard(asset)
+        return None
+
     @property
     def get_assets(self):
         """Returns the loaded assets from the database.
