@@ -1,7 +1,6 @@
 import pygame
 
 from .asset_manager import AssetManager
-from .texture_region import TextureRegion
 
 
 class TextureAtlas:
@@ -35,4 +34,4 @@ class TextureAtlas:
                              sprite["y"],
                              sprite["width"],
                              sprite["height"])
-        return TextureRegion(region, self._spritesheet)
+        return self._spritesheet.subsurface(region)
