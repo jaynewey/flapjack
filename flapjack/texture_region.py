@@ -19,7 +19,6 @@ class TextureRegion:
         """
         return self._spritesheet.subsurface(self._region)
 
-    @property
     def get_region(self):
         """Gets the rectangle of this texture region.
 
