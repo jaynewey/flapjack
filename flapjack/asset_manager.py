@@ -60,3 +60,10 @@ class AssetManager:
         with open(filename) as json_file:
             json_data = json.load(json_file)
         return json_data
+
+    @staticmethod
+    def save_json(dictionary, filename):
+        import json
+        filename += "" if filename.endswith(".json") else ".json"
+        with open(filename, 'w') as json_file:
+            json.dump(dictionary, json_file)
