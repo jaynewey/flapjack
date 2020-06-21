@@ -52,7 +52,6 @@ class TileMap:
         :rtype: pygame.Surface
         """
         surface = pygame.Surface((self.tile_width * self.chunk_width, self.tile_height * self.chunk_height))
-        print(layer)
         for y in range(self.chunk_height):
             for x in range(self.chunk_width):
                 tile_id = str(layer[y][x])
@@ -87,7 +86,8 @@ class TileMap:
         :rtype: pygame.Surface
         """
         tile_id = int(tile_id)
-        column, row = tile_id % self.tile_width, tile_id // self.tile_height
+        columns, rows = self.tileset.get_width() / self.tile_width, self.tileset.get_height() / self.tile_height
+        column, row = tile_id % columns, tile_id // rows
         region = pygame.Rect(column * self.tile_width, row * self.tile_height, self.tile_width, self.tile_height)
         return self.tileset.subsurface(region)
 
