@@ -54,8 +54,8 @@ class TileMap:
         surface = pygame.Surface((self.tile_width * self.chunk_width, self.tile_height * self.chunk_height))
         for y in range(self.chunk_height):
             for x in range(self.chunk_width):
-                tile_id = str(layer[y][x])
-                if tile_id in self.tile_properties.keys():
+                tile_id = layer[y][x]
+                if tile_id >= 0:
                     tile_texture = self.get_tile_texture(tile_id)
                     surface.blit(tile_texture, (x * self.tile_width, y * self.tile_height))
         if self.colorkey is not None:
@@ -86,7 +86,7 @@ class TileMap:
         :rtype: pygame.Surface
         """
         tile_id = int(tile_id)
-        columns, rows = self.tileset.get_width() / self.tile_width, self.tileset.get_height() / self.tile_height
+        columns, rows = self.tileset.get_width() // self.tile_width, self.tileset.get_height() // self.tile_height
         column, row = tile_id % columns, tile_id // rows
         region = pygame.Rect(column * self.tile_width, row * self.tile_height, self.tile_width, self.tile_height)
         return self.tileset.subsurface(region)
