@@ -52,15 +52,20 @@ class TileMap:
         :return: The rendered chunk surface
         :rtype: pygame.Surface
         """
-        surface = pygame.Surface((self.tile_width * self.chunk_width, self.tile_height * self.chunk_height))
+        layer_region = (self.tile_width * self.chunk_width, self.tile_height * self.chunk_height)
+        if self.colorkey is None:
+            surface = pygame.Surface(layer_region, pygame.SRCALPHA)
+        else:
+            surface = pygame.Surface(layer_region)
+            surface.fill(self.colorkey)
+            surface.set_colorkey(self.colorkey)
+
         for y in range(self.chunk_height):
             for x in range(self.chunk_width):
                 tile_id = layer[y][x]
                 if tile_id >= 0:
                     tile_texture = self.get_tile_texture(tile_id)
                     surface.blit(tile_texture, (x * self.tile_width, y * self.tile_height))
-        if self.colorkey is not None:
-            surface.set_colorkey(self.colorkey)
         return surface
 
     def _get_tile_data_at(self, layer, x, y):
