@@ -2,6 +2,13 @@ import pygame
 
 
 class TileMap:
+
+    map_dict_format = {
+        "chunks": {},  # "x,y": {"layers": []}
+        "chunk_size": [],  # [width, height]
+        "tile_size": [],  # [width, height]
+    }
+
     def __init__(self, map_dict, tile_dict, tileset, colorkey=None):
         self.tile_dict = tile_dict
         self.tileset = tileset
