@@ -10,6 +10,17 @@ class TileMap:
     }
 
     def __init__(self, map_dict, tileset, tile_properties=None, colorkey=None):
+        """Create a new TileMap with the given parameters.
+
+        :param map_dict: The map data in dict form
+        :type map_dict: dict
+        :param tileset: The tileset image as a pygame Surface
+        :type tileset: pygame.Surface
+        :param tile_properties: The (optional) properties for tiles in dict form
+        :type tile_properties: dict
+        :param colorkey: The (optional) colorkey of the tileset for transparent blitting
+        :type colorkey: tuple
+        """
         self.tileset = tileset
         self.tile_properties = {} if tile_properties is None else tile_properties
 
