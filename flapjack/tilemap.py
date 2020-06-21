@@ -143,20 +143,3 @@ class TileMap:
         """
         chunk_x, chunk_y = (int(i) for i in chunk.split(","))
         return self.chunk_width * self.tile_width * chunk_x, self.chunk_height * self.tile_height * chunk_y
-
-    @staticmethod
-    def load_from_file(tiles_file, map_file, texture_atlas):
-        """Creates a TileMap instance from the given correctly formatted files.
-
-        :param tiles_file: The json file containing tile id's and their textures
-        :type tiles_file: str
-        :param map_file: The json file containing map data
-        :type map_file: str
-        :param texture_atlas: The texture atlas containing the textures to be used
-        :return: The generated tilemap
-        :rtype TileMap
-        """
-        from flapjack.flapjack.asset_manager import AssetManager
-        tiles = AssetManager.load_json(tiles_file)
-        map_dict = AssetManager.load_json(map_file)
-        return TileMap(map_dict, texture_atlas, tiles)
