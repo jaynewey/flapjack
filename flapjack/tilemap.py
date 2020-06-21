@@ -9,9 +9,9 @@ class TileMap:
         "tile_size": [],  # [width, height]
     }
 
-    def __init__(self, map_dict, tile_dict, tileset, colorkey=None):
-        self.tile_dict = tile_dict
+    def __init__(self, map_dict, tileset, tile_properties={}, colorkey=None):
         self.tileset = tileset
+        self.tile_properties = tile_properties
 
         self.map_dict = map_dict
         self.chunks = map_dict["chunks"]
@@ -45,7 +45,7 @@ class TileMap:
         for y in range(self.chunk_height):
             for x in range(self.chunk_width):
                 tile_id = str(layer[y][x])
-                if tile_id in self.tile_dict.keys():
+                if tile_id in self.tile_properties.keys():
                     tile_texture = self.get_tile_texture(tile_id)
                     surface.blit(tile_texture, (x * self.tile_width, y * self.tile_height))
         if self.colorkey is not None:
@@ -66,7 +66,7 @@ class TileMap:
         :rtype: dict
         """
         tile_id = str(layer[y][x])
-        return self.tile_dict[tile_id] if tile_id in self.tile_dict.keys() else {}
+        return self.tile_properties[tile_id] if tile_id in self.tile_properties.keys() else {}
 
     def get_tile_texture(self, tile_id):
         """Gets the tile surface by id from the tileset.
@@ -148,4 +148,4 @@ class TileMap:
         from flapjack.flapjack.asset_manager import AssetManager
         tiles = AssetManager.load_json(tiles_file)
         map_dict = AssetManager.load_json(map_file)
-        return TileMap(map_dict, tiles, texture_atlas)
+        return TileMap(map_dict, texture_atlas, tiles)
