@@ -21,6 +21,7 @@ class TileMap:
         :param colorkey: The (optional) colorkey of the tileset for transparent blitting
         :type colorkey: tuple
         """
+        print(map_dict)
         self.tileset = tileset
         self.tile_properties = {} if tile_properties is None else tile_properties
 
@@ -86,8 +87,8 @@ class TileMap:
         :rtype: pygame.Surface
         """
         tile_id = int(tile_id)
-        columns, rows = self.tileset.get_width() // self.tile_width, self.tileset.get_height() // self.tile_height
-        column, row = tile_id % columns, tile_id // rows
+        columns = self.tileset.get_width() // self.tile_width
+        column, row = tile_id % columns, tile_id // columns
         region = pygame.Rect(column * self.tile_width, row * self.tile_height, self.tile_width, self.tile_height)
         return self.tileset.subsurface(region)
 
