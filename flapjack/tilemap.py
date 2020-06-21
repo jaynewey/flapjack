@@ -9,9 +9,9 @@ class TileMap:
         "tile_size": [],  # [width, height]
     }
 
-    def __init__(self, map_dict, tileset, tile_properties={}, colorkey=None):
+    def __init__(self, map_dict, tileset, tile_properties=None, colorkey=None):
         self.tileset = tileset
-        self.tile_properties = tile_properties
+        self.tile_properties = {} if tile_properties is None else tile_properties
 
         self.map_dict = map_dict
         self.chunks = map_dict["chunks"]
