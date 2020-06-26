@@ -178,6 +178,20 @@ class TileMap:
         chunk_x, chunk_y = (int(i) for i in chunk.split(","))
         return self.chunk_width * self.tile_width * chunk_x, self.chunk_height * self.tile_height * chunk_y
 
-    def set_tile(self, tile_id, chunk_key, layer_index, x, y):
-        self.chunks[chunk_key]["layers"][layer_index][y][x] = tile_id
-        self._render_tile(x, y, tile_id, self.chunk_surfaces[chunk_key][layer_index], remove=True)
+    def set_tile(self, tile_id, chunk, layer_index, position):
+        """Sets the tile at the given location, on the given layer, at the given chunk as the tile id given.
+        This automatically updates the chunk surfaces of the tilemap.
+
+        :param tile_id: The tile
+        :type tile_id: int
+        :param chunk: The chunk key
+        :type chunk: str
+        :param layer_index: The index of the layer you want to set the tile on
+        :type layer_index: int
+        :param position: The (x, y) location of the tile in the chunk
+        :type position tuple
+        :return: None
+        """
+        x, y = position
+        self.chunks[chunk]["layers"][layer_index][y][x] = tile_id
+        self._render_tile(x, y, tile_id, self.chunk_surfaces[chunk][layer_index], remove=True)
