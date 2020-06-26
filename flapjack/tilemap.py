@@ -33,6 +33,11 @@ class TileMap:
 
         self._chunk_surfaces = {}
 
+        self._animations = []
+        for tile_id, properties in self.tile_properties.items():
+            if "animation" in properties.keys():
+                self._animations.append(properties["animation"])
+
     def _render_chunk(self, chunk):
         """Returns a list of rendered layer surfaces for this chunk.
 
@@ -209,3 +214,11 @@ class TileMap:
         x, y = position
         self.chunks[chunk]["layers"][layer_index][y][x] = tile_id
         self._render_tile(x, y, tile_id, self._chunk_surfaces[chunk][layer_index], remove=True)
+
+    def update_animations(self):
+        """Updates all animated tiles in the tileset.
+
+        :return: None
+        """
+        for animation in self._animations:
+            animation.update()
