@@ -28,7 +28,6 @@ class AssetManager:
             return self.__assets[asset_type].discard(asset)
         return None
 
-    @property
     def get_assets(self):
         """Returns the loaded assets from the database.
 
