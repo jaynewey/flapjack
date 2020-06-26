@@ -62,10 +62,23 @@ class TileMap:
         for y in range(self.chunk_height):
             for x in range(self.chunk_width):
                 tile_id = layer[y][x]
-                if tile_id >= 0:
-                    tile_texture = self.get_tile_texture(tile_id)
-                    surface.blit(tile_texture, (x * self.tile_width, y * self.tile_height))
+                self._render_tile(x, y, tile_id, surface)
         return surface
+
+    def _render_tile(self, x, y, tile_id, surface, remove=False):
+        if tile_id >= 0:
+            tile_texture = self.get_tile_texture(tile_id)
+            surface.blit(tile_texture, (x * self.tile_width, y * self.tile_height))
+        else:
+            if remove:
+                if self.colorkey is None:
+                    fill = (0, 0, 0, 0)
+                else:
+                    fill = self.colorkey
+                pygame.draw.rect(surface,
+                                 fill,
+                                 pygame.Rect(x * self.tile_width, y * self.tile_height,
+                                             self.tile_width, self.tile_height))
 
     def _get_tile_data_at(self, layer, x, y):
         """Gets the tile at the x,y coordinate in the chunk given.
