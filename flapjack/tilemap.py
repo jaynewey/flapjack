@@ -179,6 +179,5 @@ class TileMap:
         return self.chunk_width * self.tile_width * chunk_x, self.chunk_height * self.tile_height * chunk_y
 
     def set_tile(self, tile_id, chunk_key, layer_index, x, y):
-        print(self.chunks)
         self.chunks[chunk_key]["layers"][layer_index][y][x] = tile_id
         self._render_tile(x, y, tile_id, self.chunk_surfaces[chunk_key][layer_index], remove=True)
