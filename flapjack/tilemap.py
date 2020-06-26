@@ -21,7 +21,6 @@ class TileMap:
         :param colorkey: The (optional) colorkey of the tileset for transparent blitting
         :type colorkey: tuple
         """
-        print(map_dict)
         self.tileset = tileset
         self.tile_properties = {} if tile_properties is None else tile_properties
 
@@ -138,6 +137,22 @@ class TileMap:
         """
         x, y = position
         return x // self.tile_width // self.chunk_width, y // self.tile_height // self.chunk_height
+
+    def get_chunks_in_region(self, corners):
+        """Gets all chunks bounded by the corner coordinates given.
+
+        :param corners: A list of corner coordinates [top_left, top_right, bottom_left, bottom_right]
+        :type corners: list
+        :return: A list of chunks bounded by the region given
+        :rtype: list
+        """
+        corner_chunks = [self.get_chunk_at_position(corner) for corner in corners]
+        region_chunks = []
+        for x in range(corner_chunks[0][0], corner_chunks[1][0] + 1):
+            for y in range(corner_chunks[0][1], corner_chunks[1][1] + 1):
+                if str(x) + "," + str(y) in self.chunks.keys():
+                    region_chunks.append((x, y))
+        return region_chunks
 
     def get_chunk_position(self, chunk):
         """Gets the real position of the top left corner of the chunk
