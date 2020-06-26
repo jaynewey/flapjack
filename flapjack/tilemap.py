@@ -81,6 +81,13 @@ class TileMap:
                                              self.tile_width, self.tile_height))
 
     def get_chunk_surface(self, chunk):
+        """Gets a rendered surface of the given chunk.
+
+        :param chunk: The chunk key
+        :type chunk: str
+        :return: The chunk surface
+        :type: pygame.Surface
+        """
         if chunk in self._chunk_surfaces.keys():
             return self._chunk_surfaces[chunk]
         else:
