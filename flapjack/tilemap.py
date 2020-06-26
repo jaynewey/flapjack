@@ -31,7 +31,7 @@ class TileMap:
 
         self.tile_width, self.tile_height = map_dict["tile_size"]
 
-        self.chunk_surfaces = {chunk: self._render_chunk(chunk) for chunk in self.chunks.keys()}
+        self._chunk_surfaces = {}
 
     def _render_chunk(self, chunk):
         """Returns a list of rendered layer surfaces for this chunk.
@@ -79,6 +79,13 @@ class TileMap:
                                  fill,
                                  pygame.Rect(x * self.tile_width, y * self.tile_height,
                                              self.tile_width, self.tile_height))
+
+    def get_chunk_surface(self, chunk):
+        if chunk in self._chunk_surfaces.keys():
+            return self._chunk_surfaces[chunk]
+        else:
+            self._chunk_surfaces[chunk] = self._render_chunk(chunk)
+            return self._chunk_surfaces[chunk]
 
     def _get_tile_data_at(self, layer, x, y):
         """Gets the tile at the x,y coordinate in the chunk given.
@@ -194,4 +201,4 @@ class TileMap:
         """
         x, y = position
         self.chunks[chunk]["layers"][layer_index][y][x] = tile_id
-        self._render_tile(x, y, tile_id, self.chunk_surfaces[chunk][layer_index], remove=True)
+        self._render_tile(x, y, tile_id, self._chunk_surfaces[chunk][layer_index], remove=True)
