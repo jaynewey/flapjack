@@ -74,16 +74,14 @@ class TileMap:
         if tile_id >= 0:
             tile_texture = self.get_tile_texture(tile_id)
             surface.blit(tile_texture, (x * self.tile_width, y * self.tile_height))
-        else:
-            if remove:
-                if self.colorkey is None:
-                    fill = (0, 0, 0, 0)
-                else:
-                    fill = self.colorkey
-                pygame.draw.rect(surface,
-                                 fill,
-                                 pygame.Rect(x * self.tile_width, y * self.tile_height,
-                                             self.tile_width, self.tile_height))
+        elif remove:
+            if self.colorkey is None:
+                fill = (0, 0, 0, 0)
+            else:
+                fill = self.colorkey
+            pygame.draw.rect(surface,
+                             fill,
+                             pygame.Rect(x * self.tile_width, y * self.tile_height, self.tile_width, self.tile_height))
 
     def get_chunk_surface(self, chunk):
         """Gets a rendered surface of the given chunk.
