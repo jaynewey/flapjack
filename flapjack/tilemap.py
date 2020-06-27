@@ -1,5 +1,7 @@
 import pygame
 
+from flapjack.flapjack.animation import Animation
+
 
 class TileMap:
 
@@ -33,10 +35,10 @@ class TileMap:
 
         self._chunk_surfaces = {}
 
-        self._animations = []
+        self._animations = {}
         for tile_id, properties in self.tile_properties.items():
             if "animation" in properties.keys():
-                self._animations.append(properties["animation"])
+                self._animations[tile_id] = Animation(properties["animation"])
 
     def _render_chunk(self, chunk):
         """Returns a list of rendered layer surfaces for this chunk.
@@ -72,7 +74,10 @@ class TileMap:
 
     def _render_tile(self, x, y, tile_id, surface, remove=False):
         if tile_id >= 0:
-            tile_texture = self.get_tile_texture(tile_id)
+            if str(tile_id) in self._animations.keys():
+                tile_texture = self.get_tile_texture(self._animations[str(tile_id)].get_current_texture())
+            else:
+                tile_texture = self.get_tile_texture(tile_id)
             surface.blit(tile_texture, (x * self.tile_width, y * self.tile_height))
         elif remove:
             if self.colorkey is None:
@@ -83,6 +88,15 @@ class TileMap:
                              fill,
                              pygame.Rect(x * self.tile_width, y * self.tile_height, self.tile_width, self.tile_height))
 
+    def _render_animated_tiles(self, chunk, layer_index, layer_surface):
+        layer = self.chunks[chunk]["layers"][layer_index]
+        for y in range(self.chunk_height):
+            for x in range(self.chunk_width):
+                tile_id = layer[y][x]
+                if str(tile_id) in self._animations.keys():
+                    self._render_tile(x, y, tile_id, layer_surface)
+        return layer_surface
+
     def get_chunk_surface(self, chunk):
         """Gets a rendered surface of the given chunk.
 
@@ -92,6 +106,8 @@ class TileMap:
         :type: pygame.Surface
         """
         if chunk in self._chunk_surfaces.keys():
+            for layer_index, layer_surface in enumerate(self._chunk_surfaces[chunk]):
+                self._render_animated_tiles(chunk, layer_index, layer_surface)
             return self._chunk_surfaces[chunk]
         else:
             self._chunk_surfaces[chunk] = self._render_chunk(chunk)
@@ -218,5 +234,5 @@ class TileMap:
 
         :return: None
         """
-        for animation in self._animations:
+        for animation in self._animations.values():
             animation.update()
