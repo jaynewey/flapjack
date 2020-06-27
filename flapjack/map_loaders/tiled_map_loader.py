@@ -27,4 +27,11 @@ class TiledMapLoader(MapLoader):
         for tile in source_data["tiles"]:
             if "properties" in tile.keys():
                 tile_properties[str(tile["id"])] = {p["name"]: p["value"] for p in tile["properties"]}
+            if "animation" in tile.keys():
+                if str(tile["id"]) not in tile_properties.keys():
+                    tile_properties[str(tile["id"])] = {}
+                tile_properties[str(tile["id"])]["animation"] = []
+                for animation in tile["animation"]:
+                    tile_properties[str(tile["id"])]["animation"].append({"texture": animation["tileid"],
+                                                                          "frames": animation["duration"] // 17})
         return tile_properties
