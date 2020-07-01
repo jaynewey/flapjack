@@ -51,14 +51,40 @@ class BitmapFont:
         return char_rects
 
     def get_char_surface(self, char):
+        """Return the surface of a given character.
+
+        :param char: The character to get the surface for
+        :type char: str
+        :return: The character as a surface
+        :rtype pygame.Surface
+        """
         return self._font_surface.subsurface(self._char_rects[char])
 
     def render(self, text, colour):
+        """Get a surface with the rendered text on it.
+
+        :param text: The text to be rendered
+        :type text: str
+        :param colour: The colour of the text
+        :type colour: tuple
+        :return: The rendered surface
+        :rtype: pygame.Surface
+        """
         surface = pygame.Surface(self.size(text))
         self.render_on(text, colour, surface)
         return surface
 
     def render_on(self, text, colour, surface):
+        """Render the text directly onto a given surface.
+
+        :param text: The string of text to be rendered
+        :type text: str
+        :param colour: The colour of the text
+        :type colour: tuple
+        :param surface: The surface to render the text on
+        :type surface: pygame.Surface
+        :return: None
+        """
         char_x = 0
         for char in text:
             if char in self._char_rects.keys():
@@ -68,6 +94,13 @@ class BitmapFont:
                 char_x += self.space_width
 
     def size(self, text):
+        """Determine size of the rendered surface when this text is rendered.
+
+        :param text: The string of text
+        :type text: str
+        :return: The width, height
+        :rtype: tuple
+        """
         width, height = self.spacing * (len(text) - 1), self.char_height
         for char in text:
             if char in self._char_rects.keys():
