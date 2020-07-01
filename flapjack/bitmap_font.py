@@ -71,10 +71,10 @@ class BitmapFont:
         :rtype: pygame.Surface
         """
         surface = pygame.Surface(self.size(text))
-        self.render_on(text, colour, surface)
+        self.render_on(text, colour, surface, (0, 0))
         return surface
 
-    def render_on(self, text, colour, surface):
+    def render_on(self, text, colour, surface, position):
         """Render the text directly onto a given surface.
 
         :param text: The string of text to be rendered
@@ -83,12 +83,15 @@ class BitmapFont:
         :type colour: tuple
         :param surface: The surface to render the text on
         :type surface: pygame.Surface
+        :param position: The (x,y) position at which to render the text
+        :type position: tuple
         :return: None
         """
+        x, y = position
         char_x = 0
         for char in text:
             if char in self._char_rects.keys():
-                surface.blit(self.get_char_surface(char), (char_x, 0))
+                surface.blit(self.get_char_surface(char), (x + char_x, y + 0))
                 char_x += self._char_rects[char].width + self.spacing
             else:
                 char_x += self.space_width
