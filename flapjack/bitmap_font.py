@@ -55,10 +55,10 @@ class BitmapFont:
 
         :param char: The character to get the surface for
         :type char: str
-        :return: The character as a surface
+        :return: The character as a surface. None if the character is not in the font.
         :rtype pygame.Surface
         """
-        return self._font_surface.subsurface(self._char_rects[char])
+        return self._font_surface.subsurface(self._char_rects[char]) if char in self._char_rects.keys() else None
 
     def render(self, text, colour):
         """Get a surface with the rendered text on it.
