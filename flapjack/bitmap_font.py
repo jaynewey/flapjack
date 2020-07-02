@@ -3,7 +3,7 @@ import pygame
 
 class BitmapFont:
     """Class for loading and rendering bitmap fonts."""
-    def __init__(self, font_surface, chars, spacing=1, colorkey=None):
+    def __init__(self, font_surface, chars, spacing=1):
         """
 
         :param font_surface: A loaded pygame surface with the font's characters
@@ -12,8 +12,6 @@ class BitmapFont:
         :type chars: str
         :param spacing: The number of pixels between each character
         :type spacing: int
-        :param colorkey: The (optional) colorkey of the font for transparent blitting
-        :type colorkey: tuple
         """
         self._font_surface = font_surface
         self._chars = chars
