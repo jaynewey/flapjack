@@ -10,6 +10,8 @@ class BitmapFont:
         :type font_surface: pygame.Surface
         :param chars: The characters of the font surface in order
         :type chars: str
+        :param spacing: The number of pixels between each character
+        :type spacing: int
         :param colorkey: The (optional) colorkey of the font for transparent blitting
         :type colorkey: tuple
         """
