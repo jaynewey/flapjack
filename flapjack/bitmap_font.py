@@ -91,7 +91,9 @@ class BitmapFont:
         char_x = 0
         for char in text:
             if char in self._char_rects.keys():
-                surface.blit(self.get_char_surface(char), (x + char_x, y + 0))
+                char_surface = self.get_char_surface(char).copy()
+                char_surface.fill(colour, special_flags=pygame.BLEND_MULT)
+                surface.blit(char_surface, (x + char_x, y + 0))
                 char_x += self._char_rects[char].width + self.spacing
             else:
                 char_x += self.space_width
