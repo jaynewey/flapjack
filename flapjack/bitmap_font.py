@@ -73,6 +73,7 @@ class BitmapFont:
         :rtype: pygame.Surface
         """
         surface = pygame.Surface(self.size(text))
+        surface.set_colorkey(self._font_surface.get_colorkey())
         self.render_on(text, colour, surface, (0, 0))
         return surface
 
