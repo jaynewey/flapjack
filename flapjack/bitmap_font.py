@@ -50,7 +50,8 @@ class BitmapFont:
                     if len(line_queue) == 2:
                         x1, x2 = line_queue.pop() + 1, line_queue[0]
                         if len(char_rects.keys()) < len(self._chars):
-                            char_rects[self._chars[len(char_rects.keys())]] = pygame.Rect(x1, row, x2 - x1, self.char_height)
+                            char_rects[self._chars[len(char_rects.keys())]] = pygame.Rect(x1, row, x2 - x1,
+                                                                                          self.char_height)
                             self.space_width += (x2 - x1)
         self.space_width //= len(self._chars)
 
