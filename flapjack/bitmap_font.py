@@ -26,11 +26,13 @@ class BitmapFont:
     def _get_char_height(self, char_surfarray):
         height = 0
         separator_colour = char_surfarray[0][0]
-        for i, pixel in enumerate(char_surfarray[1][1:]):
+        line_queue = []
+        for i, pixel in enumerate(char_surfarray[1]):
             if pixel == separator_colour:
-                height = i
-                break
-        return height
+                line_queue.append(i)
+                if len(line_queue) == 2:
+                    y1, y2 = line_queue
+                    return y2 - y1 - 1
 
     def _get_char_rects(self, char_surfarray):
         char_rects = {}
@@ -42,12 +44,18 @@ class BitmapFont:
             for column in range(columns):
                 pixel = char_surfarray[column][row]
                 if pixel == separator_colour:
+                    print(pixel, separator_colour)
+                    print(column, row)
                     line_queue = [column] + line_queue
                     if len(line_queue) == 2:
                         x1, x2 = line_queue.pop() + 1, line_queue[0]
-                        char_rects[self._chars[len(char_rects.keys())]] = pygame.Rect(x1, row, x2 - x1, self.char_height)
-                        self.space_width += (x2 - x1)
+                        if len(char_rects.keys()) < len(self._chars):
+                            char_rects[self._chars[len(char_rects.keys())]] = pygame.Rect(x1, row, x2 - x1, self.char_height)
+                            self.space_width += (x2 - x1)
         self.space_width //= len(self._chars)
+
+        for char, rect in char_rects.items():
+            print(char, rect)
         return char_rects
 
     def get_char_surface(self, char):
@@ -60,17 +68,18 @@ class BitmapFont:
         """
         return self._font_surface.subsurface(self._char_rects[char]) if char in self._char_rects.keys() else None
 
-    def render(self, text, colour):
+    def render(self, text, colour, flags=0):
         """Get a surface with the rendered text on it.
 
         :param text: The text to be rendered
         :type text: str
         :param colour: The colour of the text
         :type colour: tuple
+        :param flags: Optional pygame surface flags e.g pygame.SRCALPHA for per pixel alphas
         :return: The rendered surface
         :rtype: pygame.Surface
         """
-        surface = pygame.Surface(self.size(text))
+        surface = pygame.Surface(self.size(text), flags=flags)
         surface.set_colorkey(self._font_surface.get_colorkey())
         self.render_on(text, colour, surface, (0, 0))
         return surface
