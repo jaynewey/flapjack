@@ -6,4 +6,4 @@
 
 _Flapjack_ aims to offer quick and flexible classes for managing common assets used in games with pygame such as texture atlases/spritesheets, tilemaps, bitmap fonts and more.
 
-The wiki is still in progress for this library.
+The ![wiki](https://github.com/jaynewey/flapjack/wiki) for this library is still in progress.
