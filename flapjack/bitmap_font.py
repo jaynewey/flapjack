@@ -44,8 +44,6 @@ class BitmapFont:
             for column in range(columns):
                 pixel = char_surfarray[column][row]
                 if pixel == separator_colour:
-                    print(pixel, separator_colour)
-                    print(column, row)
                     line_queue = [column] + line_queue
                     if len(line_queue) == 2:
                         x1, x2 = line_queue.pop() + 1, line_queue[0]
@@ -54,9 +52,6 @@ class BitmapFont:
                                                                                           self.char_height)
                             self.space_width += (x2 - x1)
         self.space_width //= len(self._chars)
-
-        for char, rect in char_rects.items():
-            print(char, rect)
         return char_rects
 
     def get_char_surface(self, char):
@@ -81,7 +76,9 @@ class BitmapFont:
         :rtype: pygame.Surface
         """
         surface = pygame.Surface(self.size(text), flags=flags)
-        surface.set_colorkey(self._font_surface.get_colorkey())
+        if self._font_surface.get_colorkey() is not None:
+            surface.fill(self._font_surface.get_colorkey())
+            surface.set_colorkey(self._font_surface.get_colorkey())
         self.render_on(text, colour, surface, (0, 0))
         return surface
 
